@@ -43,5 +43,11 @@ class Users(Resource):
             return api.abort(404, f"User {user_id} does not exist") 
         return user, 200
 
+class AllUsers(Resource):
+    @api.marshal_with(user, as_list=True)
+    def get(self):
+        return User.query.all(), 200
+
 api.add_resource(UsersList, '/users')
 api.add_resource(Users, '/users/<int:user_id>')
+api.add_resource(AllUsers, '/users')
